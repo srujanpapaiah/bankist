@@ -80,36 +80,56 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${balance}`;
+};
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+calcDisplayBalance(account1.movements);
 
-/////////////////////////////////////////////////
+const calcDisplaySummary = movements => {
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumIn.textContent = `₹${income}`;
 
-// let arr = ['a', 'b', 'c', 'd', 'e'];
+  const outgoing = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumOut.textContent = `₹${Math.abs(outgoing)}`;
 
-// console.log(arr.slice(2));
-// console.log(arr.slice(2, 4));
-// console.log(arr.slice(-2));
-// console.log(arr.slice(0, -2));
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(mov => mov >= 1)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumInterest.textContent = `₹${interest}`;
+};
+calcDisplaySummary(account1.movements);
 
-// console.log(arr.splice(2));
-// console.log(arr);
+const createUserNames = accs => {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(e => e[0])
+      .join('');
+  });
+};
 
-// const currencies = new Map([
-//   ['USD', 'United States dollar'],
-//   ['EUR', 'Euro'],
-//   ['GBP', 'Pound sterling'],
-// ]);
+createUserNames(accounts);
 
-// currencies.forEach(function (value, key, map) {
-//   console.log(`${key} ${value} ${map}`);
-// });
+const deposits = movements.filter(mov => mov > 0);
+const withdrawals = Math.abs(movements.filter(mov => mov < 0));
 
-// const currenciesUnique = new Set(['EUR', 'USD', 'GBP', 'INR', 'INR', 'EUR']);
+const inrToUsd = 1.1;
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * inrToUsd)
+  .reduce((acc, curr) => acc + curr, 0);
 
-// currenciesUnique.forEach(function (mov, set) {
-//   console.log(`${mov} ${set}`);
-// });
+movements.find(mov => mov < 0);
+
+for (const a of accounts) {
+  const account = a.owner === 'Jessica Davis';
+}
